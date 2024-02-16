@@ -1,0 +1,16 @@
+package user
+
+import (
+	"github.com/anomaly44/go-tmpl/view/layout"
+	"github.com/anomaly44/go-tmpl/model"
+	"github.com/anomaly44/go-tmpl/view/component"
+)
+
+templ Show(user model.User) {
+	@layout.Base() {
+		<h1>hello from the user page { user.Email }</h1>
+		@component.Input(component.InputProps{
+			Name: "email",
+			Typ:  "email"})
+	}
+}
