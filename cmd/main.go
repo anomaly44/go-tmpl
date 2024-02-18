@@ -11,6 +11,9 @@ func main() {
 	app := echo.New()
 
 	userHandler := handler.UserHandler{}
+	app.Static("/static", "static")
+	app.GET("/", userHandler.HandleLoginShow)
+	app.POST("/login", userHandler.HandleLoginSubmit)
 	app.GET("/user", userHandler.HandleUserShow)
 	fmt.Println("It is working")
 
