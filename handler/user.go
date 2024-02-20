@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/anomaly44/go-tmpl/model"
 	"github.com/anomaly44/go-tmpl/view/user"
@@ -20,9 +21,22 @@ const (
 
 type UserHandler struct{}
 
+// Function to check if a name exists in a slice.
+func userExists(user string, slice []string) bool {
+	u := strings.ToLower(user)
+	for _, v := range slice {
+		if v == u {
+			return true
+		}
+	}
+	return false
+}
+
+var users = []string{"rob@fixtrack.be", "test@user.be"}
+
 func (h UserHandler) HandleUserShow(c echo.Context) error {
 	u := model.User{
-		Email: "Rob@fixtrack.be",
+		Email: c.Get(username_key).(string),
 	}
 	// print username userid en tzone from context
 	fmt.Printf(
@@ -52,7 +66,7 @@ func (h UserHandler) HandleLoginSubmit(c echo.Context) error {
 	}
 	// print formdata
 	fmt.Printf("formdata is %v \n", formData)
-	if email == "rob@fixtrack.be" {
+	if userExists(email, users) {
 		// Get Session and setting Cookies
 		sess, _ := session.Get(auth_sessions_key, c)
 		sess.Options = &sessions.Options{
