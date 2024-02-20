@@ -18,8 +18,8 @@ import (
 
 func addtocomp() templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_addtocomp_89dd`,
-		Function: `function __templ_addtocomp_89dd(){const ctx = document.getElementById("mychart");
+		Name: `__templ_addtocomp_1f64`,
+		Function: `function __templ_addtocomp_1f64(){const ctx = document.getElementById("mychart");
 	function generateDataPoints(sliderValue) {
 	var data = [
 		{
@@ -80,22 +80,11 @@ func addtocomp() templ.ComponentScript {
 	],
 	type: "line",
 	data,
-	options: {
-		// scales: {
-		// yAxes: [
-		// 	{
-		// 	ticks: {
-		// 		beginAtZero: true,
-		// 	},
-		// 	},
-		// ],
-		// },
-	},
 	});
 	window.myMathChart = myMathChart;
 }`,
-		Call:       templ.SafeScript(`__templ_addtocomp_89dd`),
-		CallInline: templ.SafeScriptInline(`__templ_addtocomp_89dd`),
+		Call:       templ.SafeScript(`__templ_addtocomp_1f64`),
+		CallInline: templ.SafeScriptInline(`__templ_addtocomp_1f64`),
 	}
 }
 
@@ -125,7 +114,7 @@ func Show(user model.User) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(user.Email)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/show.templ`, Line: 89, Col: 133}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/show.templ`, Line: 78, Col: 133}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
