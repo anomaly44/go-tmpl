@@ -11,4 +11,8 @@ RUN go build -v -o /run-app ./cmd
 FROM alpine:latest
 
 COPY --from=builder /run-app /usr/local/bin/
+
+# Copy the static files from the host to the container
+COPY ./static /static
+
 CMD ["run-app"]
