@@ -16,6 +16,89 @@ import (
 	"github.com/anomaly44/go-tmpl/view/layout"
 )
 
+func addtocomp() templ.ComponentScript {
+	return templ.ComponentScript{
+		Name: `__templ_addtocomp_89dd`,
+		Function: `function __templ_addtocomp_89dd(){const ctx = document.getElementById("mychart");
+	function generateDataPoints(sliderValue) {
+	var data = [
+		{
+		label: "scenario 1",
+		function: function (x) {
+			return x + sliderValue;
+		},
+		borderColor: "rgba(75, 192, 192, 1)",
+		data: [],
+		fill: false,
+		},
+		{
+		label: "scenario 2",
+		function: function (x) {
+			return (x) * (x + 2* sliderValue);
+		},
+		borderColor: "rgba(153, 102, 255, 1)",
+		data: [],
+		fill: false,
+		},
+		{
+		label: "scenario 3",
+		function: function (x) {
+			return (x) * (x + 3* sliderValue);;
+		},
+		borderColor: "rgba(255, 206, 86, 1)",
+		data: [],
+		fill: false,
+		},
+	];
+	return data;
+	}
+
+	window.generateDataPoints = generateDataPoints;
+	var data = {
+	labels: [1, 2, 3, 4, 5],
+	datasets: generateDataPoints(0.5),
+	};
+
+	function generateLines(chart) {
+	var data = chart.config.data;
+	for (var i = 0; i < data.datasets.length; i++) {
+		for (var j = 0; j < data.labels.length; j++) {
+		var fct = data.datasets[i].function,
+			x = data.labels[j],
+			y = fct(x);
+		data.datasets[i].data.push(y);
+		}
+	}
+	}
+
+	const myMathChart = new Chart(ctx, {
+	plugins: [
+		{
+		beforeInit: generateLines,
+		beforeUpdate: generateLines,
+		},
+	],
+	type: "line",
+	data,
+	options: {
+		// scales: {
+		// yAxes: [
+		// 	{
+		// 	ticks: {
+		// 		beginAtZero: true,
+		// 	},
+		// 	},
+		// ],
+		// },
+	},
+	});
+	window.myMathChart = myMathChart;
+}`,
+		Call:       templ.SafeScript(`__templ_addtocomp_89dd`),
+		CallInline: templ.SafeScriptInline(`__templ_addtocomp_89dd`),
+	}
+}
+
 func Show(user model.User) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
@@ -35,26 +118,38 @@ func Show(user model.User) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1>hello from the user page ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><div id=\"main\" class=\"max-w-6xl mx-auto px-4 sm:px-6 md:px-8\"><h1 class=\"mb-8 mt-8 text-3xl font-extrabold leading-none tracking-tight text-white text-center\">Welcome to the demo ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(user.Email)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/show.templ`, Line: 10, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/show.templ`, Line: 89, Col: 133}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><div class=\"flex flex-wrap justify-center\"><div class=\"w-full md:w-1/3 max-h-[500px] p-3\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = component.Input(component.InputProps{
-				Name: "email",
-				Typ:  "email"}).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = component.Slider(component.SliderProps{
+				Id:    "acid",
+				Min:   "0",
+				Max:   "2",
+				Value: "0.5",
+				Label: "Acetic acid",
+			}).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-full md:w-2/3 max-w-4xl h-[400px] max-h-[500px] flex justify-center items-center\"><canvas id=\"mychart\" class=\"w-full h-full\"></canvas></div></div></div></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = addtocomp().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

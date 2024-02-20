@@ -23,7 +23,7 @@ func Base() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html><head><title>My Site</title><link href=\"./static/output.css\" rel=\"stylesheet\"></head><body class=\"antialiased text-slate-400 bg-slate-900\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html><head><title>My Site</title><link href=\"./static/styles.css\" rel=\"stylesheet\"><script src=\"./static/script.js\"></script><script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js\" integrity=\"sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\"></script></head><body class=\"antialiased text-slate-400 bg-slate-900\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

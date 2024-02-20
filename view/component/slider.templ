@@ -1,0 +1,31 @@
+package component
+
+type SliderProps struct {
+	Min   string
+	Max   string
+	Value string
+	Id    string
+	Label string
+}
+
+script handleOninput(id string) {
+
+        const firedBy = document.getElementById(id);
+
+        document.getElementById(id + '-label').innerHTML = firedBy.value;
+        window.myMathChart.data.datasets = window.generateDataPoints(firedBy.value);
+        window.myMathChart.update('none');
+    
+}
+
+templ Slider(props SliderProps) {
+	<div class="w-full">
+		<div class="ml-3 mb-2">
+			<label for={ props.Id } class="block text-sm font-bold text-white">{ props.Label }</label>
+		</div>
+		<div class="flex items-center space-x-2">
+			<input id={ props.Id } type="range" min={ props.Min } max={ props.Max } value={ props.Value } step="0.1" class="slider w-80" oninput={ handleOninput(props.Id) }/>
+			<span id={ props.Id + "-label" } class="ml-6">{ props.Value }</span>
+		</div>
+	</div>
+}

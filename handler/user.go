@@ -24,6 +24,13 @@ func (h UserHandler) HandleUserShow(c echo.Context) error {
 	u := model.User{
 		Email: "Rob@fixtrack.be",
 	}
+	// print username userid en tzone from context
+	fmt.Printf(
+		"username is %s, userid is %d and tzone is %s \n",
+		c.Get(username_key),
+		c.Get(user_id_key),
+		c.Get(tzone_key),
+	)
 	return render(c, user.Show(u))
 }
 
@@ -53,13 +60,14 @@ func (h UserHandler) HandleLoginSubmit(c echo.Context) error {
 			MaxAge:   3600, // in seconds
 			HttpOnly: true,
 		}
-
+		// print timezone
+		fmt.Printf("timezone is %s \n", tzone)
 		// Set user as authenticated, their username,
 		// their ID and the client's time zone
 		sess.Values = map[interface{}]interface{}{
 			auth_key: true,
 			// user_id_key:  user.ID,
-			user_id_key:  "777777",
+			user_id_key:  777,
 			username_key: email,
 			tzone_key:    tzone,
 		}
@@ -83,6 +91,19 @@ func (h UserHandler) AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 
 			return echo.NewHTTPError(echo.ErrUnauthorized.Code, "Please provide valid credentials")
 		}
+
+		if userId, ok := sess.Values[user_id_key].(int); ok && userId != 0 {
+			c.Set(user_id_key, userId) // set the user_id in the context
+		}
+
+		if username, ok := sess.Values[username_key].(string); ok && len(username) != 0 {
+			c.Set(username_key, username) // set the username in the context
+		}
+
+		if tzone, ok := sess.Values[tzone_key].(string); ok && len(tzone) != 0 {
+			c.Set(tzone_key, tzone) // set the client's time zone in the context
+		}
+
 		return next(c)
 	}
 }
