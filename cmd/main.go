@@ -21,6 +21,7 @@ func main() {
 	app := echo.New()
 
 	userHandler := handler.UserHandler{}
+	recipeHandler := handler.RecipeHandler{}
 
 	// logger middleware
 	app.Use(middleware.Logger())
@@ -34,6 +35,8 @@ func main() {
 
 	proctectedGroup := app.Group("/users", userHandler.AuthMiddleware)
 	proctectedGroup.GET("", userHandler.HandleUserShow)
+	proctectedGroup.GET("/recipes", recipeHandler.HandleRecipeShow)
+	proctectedGroup.POST("/recipes", recipeHandler.HandleRecipeSubmit)
 	fmt.Println("It is working")
 
 	app.Start(":8080")

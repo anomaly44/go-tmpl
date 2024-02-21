@@ -1,0 +1,82 @@
+package recipe
+
+import (
+	"github.com/anomaly44/go-tmpl/view/layout"
+	"github.com/anomaly44/go-tmpl/model"
+)
+
+templ Recipe(recipe model.Recipe) {
+	<div>
+		Name: <span>{ recipe.Name }</span>
+		Id: <span>{ recipe.Id }</span>
+	</div>
+}
+
+templ OobRecipe(recipe model.Recipe) {
+	<div hx-swap-oob="afterbegin" id="recipes">
+		@Recipe(recipe)
+	</div>
+}
+
+templ DisplayRecipes(recipeData model.Data) {
+	<div id="recipes">
+		for _, item := range recipeData.Recipes {
+			@Recipe(item)
+		}
+	</div>
+}
+
+templ RecipeForm(data model.FormData) {
+	<div class="max-w-md mx-auto" id="form-wrapper">
+		<div class="flex items-center">
+			<form id="contact-form" hx-post="/users/recipes" hx-swap="outerHTML" hx-target="#form-wrapper">
+				<div class="flex flex-col mb-4">
+					<label class="mb-2 font-bold text-lg" for="name">Name</label>
+					<input
+						class="form-input mt-1 block w-full border-gray-300 shadow-sm rounded-md"
+						name="name"
+						if (data.Values["name"] != "") {
+							value={ data.Values["name"] }
+						}
+						placeholder="Name"
+					/>
+					if (data.Errors["name"] != "") {
+						<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+							<span class="block sm:inline">{ data.Errors["name"] }</span>
+						</div>
+					}
+				</div>
+				<div class="flex flex-col mb-4">
+					<label class="mb-2 font-bold text-lg" for="id">id</label>
+					<input
+						class="form-input mt-1 block w-full border-gray-300 shadow-sm rounded-md"
+						type="id"
+						if data.Values["id"] != "" {
+							value={ data.Values["id"] }
+						}
+						name="id"
+						placeholder="id"
+					/>
+					if data.Errors["id"] != "" {
+						<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-40" role="alert">
+							<span class="block sm:inline">{ data.Errors["id"] }</span>
+						</div>
+					}
+				</div>
+				<button type="submit" class="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline">
+					Submit
+				</button>
+			</form>
+		</div>
+	</div>
+}
+
+templ Show(data model.PageData) {
+	@layout.Base() {
+		<div>
+			<h1>Test</h1>
+			@RecipeForm(data.Form)
+			@DisplayRecipes(data.Data)
+		</div>
+	}
+}
