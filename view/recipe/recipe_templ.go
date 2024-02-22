@@ -30,7 +30,7 @@ func Recipe(recipe model.Recipe) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"recipe htmx-swapping:opacity-0 transition-opacity duration-2000 bg-slate-800 p-4 rounded-lg shadow-lg mb-4 relative\"><div class=\"absolute top-0 right-0 p-2 z-10\"><button type=\"button\" class=\"text-gray-400 hover:text-gray-200\" hx-indicator=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"recipe htmx-swapping:opacity-0 transition-opacity duration-500 bg-slate-800 p-4 rounded-lg shadow-lg mb-4 relative\"><div class=\"absolute top-0 right-0 p-2 z-10\"><button type=\"button\" class=\"text-gray-400 hover:text-gray-200\" hx-indicator=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -211,7 +211,7 @@ func RecipeForm(data model.FormData) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex flex-col mb-4\"><label class=\"mb-2 font-bold text-lg\" for=\"id\">id</label> <input class=\"form-input mt-1 block w-full border-gray-300 shadow-sm rounded-md\" type=\"id\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex flex-col mb-4\"><label class=\"mb-2 font-bold text-lg\" for=\"id\">Id</label> <input class=\"form-input mt-1 block w-full border-gray-300 shadow-sm rounded-md\" type=\"id\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -229,7 +229,7 @@ func RecipeForm(data model.FormData) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" name=\"Id\" placeholder=\"Id\"> ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" name=\"id\" placeholder=\"Id\"> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
