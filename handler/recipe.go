@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/anomaly44/go-tmpl/model"
 	"github.com/anomaly44/go-tmpl/view/recipe"
@@ -58,4 +59,21 @@ func (h RecipeHandler) HandleRecipeSubmit(c echo.Context) error {
 	}
 
 	return recipe.OobRecipe(rec).Render(c.Request().Context(), c.Response().Writer)
+}
+
+func (h RecipeHandler) HandleDeleteRecipe(c echo.Context) error {
+	time.Sleep(1 * time.Second)
+	id := c.Param("id")
+	deleted := false
+	for i, rec := range page.Data.Recipes {
+		if rec.Id == id {
+			page.Data.Recipes = append(page.Data.Recipes[:i], page.Data.Recipes[i+1:]...)
+			deleted = true
+			break
+		}
+	}
+	if !deleted {
+		return c.String(400, "Contact not found")
+	}
+	return c.NoContent(200)
 }

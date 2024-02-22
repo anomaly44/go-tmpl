@@ -3,12 +3,27 @@ package recipe
 import (
 	"github.com/anomaly44/go-tmpl/view/layout"
 	"github.com/anomaly44/go-tmpl/model"
+	//import fmt for Sprintf
+	"fmt"
 )
 
 templ Recipe(recipe model.Recipe) {
-	<div>
-		Name: <span>{ recipe.Name }</span>
-		Id: <span>{ recipe.Id }</span>
+	<div class="recipe htmx-swapping:opacity-0 transition-opacity duration-2000 bg-slate-800 p-4 rounded-lg shadow-lg mb-4 relative">
+		<div class="absolute top-0 right-0 p-2 z-10">
+			<button type="button" class="text-gray-400 hover:text-gray-200" hx-indicator={ fmt.Sprintf("#delete-indicator-%s", recipe.Id) } hx-delete={ "/users/recipes/" + recipe.Id } hx-swap="outerHTML swap:1000ms" hx-target="closest .recipe">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+				</svg>
+			</button>
+		</div>
+		<div id={ fmt.Sprintf("delete-indicator-%s", recipe.Id) } class="htmx-indicator absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-5">
+			<svg class="animate-spin h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+				<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+				<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+			</svg>
+		</div>
+		<div class="text-white font-bold text-lg mb-2">Name: <span class="font-normal">{ recipe.Name }</span></div>
+		<div class="text-gray-400">Id: <span>{ recipe.Id }</span></div>
 	</div>
 }
 
@@ -19,7 +34,7 @@ templ OobRecipe(recipe model.Recipe) {
 }
 
 templ DisplayRecipes(recipeData model.Data) {
-	<div id="recipes">
+	<div id="recipes" class="max-w-md mx-auto">
 		for _, item := range recipeData.Recipes {
 			@Recipe(item)
 		}
@@ -27,7 +42,7 @@ templ DisplayRecipes(recipeData model.Data) {
 }
 
 templ RecipeForm(data model.FormData) {
-	<div class="max-w-md mx-auto" id="form-wrapper">
+	<div class="max-w-md mx-auto mt-20" id="form-wrapper">
 		<div class="flex items-center">
 			<form id="contact-form" hx-post="/users/recipes" hx-swap="outerHTML" hx-target="#form-wrapper">
 				<div class="flex flex-col mb-4">
@@ -54,8 +69,8 @@ templ RecipeForm(data model.FormData) {
 						if data.Values["id"] != "" {
 							value={ data.Values["id"] }
 						}
-						name="id"
-						placeholder="id"
+						name="Id"
+						placeholder="Id"
 					/>
 					if data.Errors["id"] != "" {
 						<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-40" role="alert">
@@ -73,10 +88,7 @@ templ RecipeForm(data model.FormData) {
 
 templ Show(data model.PageData) {
 	@layout.Base() {
-		<div>
-			<h1>Test</h1>
-			@RecipeForm(data.Form)
-			@DisplayRecipes(data.Data)
-		</div>
+		@RecipeForm(data.Form)
+		@DisplayRecipes(data.Data)
 	}
 }

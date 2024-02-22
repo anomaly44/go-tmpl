@@ -37,6 +37,7 @@ func main() {
 	proctectedGroup.GET("", userHandler.HandleUserShow)
 	proctectedGroup.GET("/recipes", recipeHandler.HandleRecipeShow)
 	proctectedGroup.POST("/recipes", recipeHandler.HandleRecipeSubmit)
+	proctectedGroup.DELETE("/recipes/:id", recipeHandler.HandleDeleteRecipe)
 	fmt.Println("It is working")
 
 	app.Start(":8080")
